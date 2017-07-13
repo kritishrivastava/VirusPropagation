@@ -9,6 +9,8 @@ The goal of this project is to analyze the propagation of a virus in a static ne
 2. Calculation of the effective strength of a virus.
 3. Simulation of the propagation of a virus in a network.
 4. Implementation of immunization policies to prevent a virus from spreading across a network.
+The implementation was based on the findings from the paper "B. Aditya Prakash, Deepayan Chakrabarti, Michalis Faloutsos, Nicholas Valler, and Christos Falou tsos. Got the Flu (or Mumps)? Check the Eigenvalue! arXiv:1004.0060 [physics.socph], 2010".
+
 
 Python version used: Python 3.6.0
 
@@ -22,11 +24,14 @@ Python libraries needed:
 https://matplotlib.org/users/installing.html
 
 
+
 Instructions to run the program:
 1. Go the the directory containing the python script.
 2. Give the command "python virusPropagation.py" 
 
+
 Dataset used: static.network
+
 
 Output of the program:
 1. Numeric value of the effective strength (s) of the virus on the static contact network provided (static.network)
