@@ -9,6 +9,7 @@ The goal of this project is to analyze the propagation of a virus in a static ne
 2. Calculation of the effective strength of a virus.
 3. Simulation of the propagation of a virus in a network.
 4. Implementation of immunization policies to prevent a virus from spreading across a network.
+
 The implementation was based on the findings from the paper "B. Aditya Prakash, Deepayan Chakrabarti, Michalis Faloutsos, Nicholas Valler, and Christos Falou tsos. Got the Flu (or Mumps)? Check the Eigenvalue! arXiv:1004.0060 [physics.socph], 2010".
 
 
