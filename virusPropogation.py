@@ -100,7 +100,7 @@ def sis_vpm(graph,transmission,healing):
             #If the infected node has some healthy neighbors, find ones which get infected
             if(len(healthy_nodes)) > 0:
                 #Adding the newly infected nodes to the list of infected nodes
-                infected_nodes=infected_nodes.union(set(np.random.choice(neighbors, int(transmission*len(neighbors)))))
+                infected_nodes=infected_nodes.union(set(np.random.choice(list(healthy_nodes), int(transmission*len(list(healthy_nodes))))))
         #Finding the fraction of infected nodes at every time step
         fraction.append(float(len(infected_nodes))/float(len(nodes)))
     return fraction
@@ -131,8 +131,11 @@ def plotSvsk(b, d, graph, policy):
     strengths = []
     kStart = 0
     kEnd = nx.number_of_nodes(graph)
-    step = 500
-    rangeOfK = [k for k in range(kStart,kEnd,step)] 
+    step = 50
+    if policy == "D":
+        step = 200
+    rangeOfK = [k for k in range(kStart,kEnd,step)]
+    foundMin = False
     for k in rangeOfK:
         if policy == 'A':
             immunizedGraph = immunizeUsingPolicyA(graph.copy(), k) 
@@ -146,7 +149,9 @@ def plotSvsk(b, d, graph, policy):
         Cvpm = b/d
         strength = np.real(lambda1 * Cvpm)
         if strength < 1:
-	        print("Effective strength is less than 1, the virus will die quickly for k :", k)
+            if foundMin == False:
+                foundMin = True
+                print("Effective strength is less than 1, the virus will die quickly for k :", k)
         strengths.append(strength)
     plt.figure(figsize=(12, 6))
     plt.plot(rangeOfK, strengths, "-o")
@@ -273,7 +278,7 @@ if __name__ == "__main__":
     print("\n\n-------------  Finding minimum number of vaccines needed to prevent epidemic on network immunized using policy C :  -------------")
     plotSvsk(b, d, graph.copy(), "C")
     print("\n\n-------------  Finding minimum number of vaccines needed to prevent epidemic on network immunized using policy D :  -------------")
-   # plotSvsk(b, d, graph.copy(), "D")
+    plotSvsk(b, d, graph.copy(), "D")
 
     # 3.f) Plot the average fraction of infected nodes at each time step for immunized networks
     b = 0.20
