@@ -76,10 +76,10 @@ def plotSvsD(b, d, lambda1, part):
     #os.makedirs(os.path.dirname(plotFile), exist_ok=True)
     plt.savefig(plotFile, bbox_inches='tight')
 
-def sis_vpm(graphName,transmission,healing):
+def sis_vpm(graph,transmission,healing):
     # Input: netwworkx graph, transmission probability and healing probability
     # Output: Fraction of infected nodes at time steps ranging from 0 to 100
-    nodes = graphName.nodes()
+    nodes = graph.nodes()
     #Fraction of nodes which are infected
     fraction= list()
     #Find initially infected nodes
@@ -94,7 +94,7 @@ def sis_vpm(graphName,transmission,healing):
         infected_nodes=infected_nodes.difference(healed_nodes)
         #Finding neighbors of the infected nodes which are at a risk of infection
         for node in infected_nodes:
-            neighbors=graphName.neighbors(node)
+            neighbors=graph.neighbors(node)
             #From the list of neighbors of the infected node, removing the nodes which are already infected
             healthy_nodes = set(neighbors).difference(infected_nodes)
             #If the infected node has some healthy neighbors, find ones which get infected
@@ -104,6 +104,26 @@ def sis_vpm(graphName,transmission,healing):
         #Finding the fraction of infected nodes at every time step
         fraction.append(float(len(infected_nodes))/float(len(nodes)))
     return fraction
+
+def plotInfectionvsTime(graph, b, d, part):
+    # Input: networkx graph, transmission probability b, healing probability d
+    # Output: Plots a graph between the average fraction of infected nodes vs time
+    infectionFraction = list()
+    #Perform 10 simulations of virus propagation
+    for i in range(10):
+        #Calculate the fraction of infected nodes for SIS virus propagation model
+        f = sis_vpm(graph, b, d)
+        infectionFraction.append(f)
+    #Calucate average of fraction of infected nodes at every time step
+    avgInfectionFraction = [float(sum(col)) / len(col) for col in zip(*infectionFraction)]
+    #Plot graph for avg infection fraction vs time
+    plt.figure(figsize=(12, 6))
+    plt.plot(avgInfectionFraction)
+    plt.xlabel("Time")
+    plt.ylabel("Average fraction of Population Infected")
+    plotFile = "output/" + "infectionVStime_" + part + ".png"
+    plt.savefig(plotFile, bbox_inches='tight')
+
 
 def plotSvsk(b, d, graph, policy):
     # Input: transmission probability, healing probability, networkx graph and the policy number
@@ -209,31 +229,13 @@ if __name__ == "__main__":
     ### Part 1 for b1 and d1
     b = 0.20
     d = 0.70
-    infectionFraction = list()
-    for i in range(10):
-        f = sis_vpm(graph, b, d)
-        infectionFraction.append(f)
-    avgInfectionFraction = [float(sum(col)) / len(col) for col in zip(*infectionFraction)]
-    plt.figure(figsize=(12, 6))
-    plt.plot(avgInfectionFraction)
-    plt.xlabel("Time")
-    plt.ylabel("Average fraction of Population Infected")
-    plotFile = "output/" + "infectionVStime_part1.png"
-    plt.savefig(plotFile, bbox_inches='tight')
+    part = "part1"
+    plotInfectionvsTime(graph, b, d, part)
     ### Part 2 for b2 and d2
     b = 0.01
     d = 0.60
-    infectionFraction = list()
-    for i in range(10):
-        f = sis_vpm(graph, b, d)
-        infectionFraction.append(f)
-    avgInfectionFraction = [float(sum(col)) / len(col) for col in zip(*infectionFraction)]
-    plt.figure(figsize=(12, 6))
-    plt.plot(avgInfectionFraction)
-    plt.xlabel("Time")
-    plt.ylabel("Average fraction of Population Infected")
-    plotFile = "output/" + "infectionVStime_part2.png"
-    plt.savefig(plotFile, bbox_inches='tight')
+    part = "part2"
+    plotInfectionvsTime(graph, b, d, part)
 
 
     ### 3) Immunization Policy for preventing the spread of epidemic
@@ -271,10 +273,19 @@ if __name__ == "__main__":
     print("\n\n-------------  Finding minimum number of vaccines needed to prevent epidemic on network immunized using policy C :  -------------")
     plotSvsk(b, d, graph.copy(), "C")
     print("\n\n-------------  Finding minimum number of vaccines needed to prevent epidemic on network immunized using policy D :  -------------")
-    plotSvsk(b, d, graph.copy(), "D")
+   # plotSvsk(b, d, graph.copy(), "D")
 
-    
-
+    # 3.f) Plot the average fraction of infected nodes at each time step for immunized networks
+    b = 0.20
+    d = 0.70
+    part = "policyA"
+    plotInfectionvsTime(immunizedGraphA, b, d, part)
+    part = "policyB"
+    plotInfectionvsTime(immunizedGraphB, b, d, part)
+    part = "policyC"
+    plotInfectionvsTime(immunizedGraphC, b, d, part)
+    part = "policyD"
+    plotInfectionvsTime(immunizedGraphD, b, d, part)
 
 
  
