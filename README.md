@@ -39,5 +39,10 @@ Output of the program:
 2. Answer to the question: "Will the infection spread across the network (i.e., result on an epidemic), or will it die quickly?"
 3. Graph plot 1: Plot between the transmission probability(beta) and effective strength of the virus. The plot "betaVSstrength_part1.png" is generated in the directory containing the python script under /output/. 
 4. Graph plot 2: Plot between the Healing probability(delta) and effective strength of the virus. The plot "deltaVSstrength_part1.png" is generated in the directory containing the python script under /output/. 
-5. The minimum transmission probability (β) that results in a networkwide epidemic.
-6. The maximum healing probability (δ) that results in a networkwide epidemic.
+5. The minimum transmission probability (�) that results in a networkwide epidemic.
+6. The maximum healing probability (d) that results in a networkwide epidemic.
+7. Values for effective strength (s) of virus on network immunized using policy A, B, C and D.
+8. Values for minimum number of vaccines needed to prevent epidemic on network immunized using policy A, B, C and D.
+9. Graphs between the average fraction of infected nodes vs time for the network ex. "infectionVStime_part1.png"
+10. Graphs between the virus strength and the number of vaccines using immunization policies A, B, C and D. Ex. "kVSstrength_policyA"
+11. Graphs between the average fraction of infected nodes vs time for the immunized network ex. "infectionVStime_policyA.png"
